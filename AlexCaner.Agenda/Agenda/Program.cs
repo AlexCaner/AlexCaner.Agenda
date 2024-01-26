@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Net;
 using System.Net.Quic;
 using System.IO;
+using System.ComponentModel.DataAnnotations;
 
 class Program
 {
@@ -159,14 +160,13 @@ class Program
                 break;
             case 5:
                 Capçalera();
-
+                MostrarAgenda();
                 Thread.Sleep(5000);
                 Console.Clear();
                 break;
             case 6:
                 Capçalera();
-
-                Thread.Sleep(500);
+                OrdenarAgenda();
                 Console.Clear();
                 break;
         }
@@ -247,7 +247,7 @@ class Program
             error = false;
             Console.Write("Data Naixement: ");
             data = IntroduirValor();
-            error = DataValidar(data, error);
+            data = DataValidar(data);
         } while (error);
         do
         {
@@ -320,13 +320,18 @@ class Program
         Console.ForegroundColor = ConsoleColor.Black;
         do
         {
-            error = false;
-            Console.Write("Insereix Usuari: ");
-            nom = IntroduirValor();
-            error = PrimeraMaj(nom, error);
-        } while (error);
+            do
+            {
+                error = false;
+                Console.Write("Insereix Usuari: ");
+                nom = IntroduirValor();
+                error = PrimeraMaj(nom, error);
+            } while (error);
 
-        linea = TrobarUsuari(nom);
+            linea = TrobarUsuari(nom);
+            Console.WriteLine(linea.Replace(";", "   "));
+        } while (linea == "");
+        
         lineaAux = linea;
         Aux1linea = linea;
         Console.BackgroundColor = ConsoleColor.Blue;
@@ -441,7 +446,7 @@ class Program
                     error = false;
                     Console.Write("Data Naixement: ");
                     dada = IntroduirValor();
-                    error = DataValidar(dada, error);
+                    dada = DataValidar(dada);
                     lineaAux1 = linea;
                 } while (error);
                 linea = "";
@@ -477,18 +482,23 @@ class Program
     } 
     static void Eliminar()
     {
-        string agenda = "", linea, nom;
+        string agenda = "", linea, nom = "";
         bool error;
         Console.BackgroundColor = ConsoleColor.White;
         Console.ForegroundColor = ConsoleColor.Black;
         do
         {
-            error = false;
-            Console.Write("Insereix Usuari: ");
-            nom = IntroduirValor();
-            error = PrimeraMaj(nom, error);
-        } while (error);
-        linea = TrobarUsuari(nom);
+            do
+            {
+                error = false;
+                Console.Write("Insereix Usuari: ");
+                nom = IntroduirValor();
+                error = PrimeraMaj(nom, error);
+            } while (error);
+
+            linea = TrobarUsuari(nom);
+        } while (linea == "");
+
         using (StreamReader SR = new StreamReader("agenda.txt", true))
         {
             while (!SR.EndOfStream)
@@ -496,12 +506,75 @@ class Program
         }
         EliminarLinea(linea);
     }
+    //static void MostrarAgenda();
+    
+    static void MostrarAgenda()
+    {
+        Console.BackgroundColor = ConsoleColor.White;
+        Console.ForegroundColor = ConsoleColor.Black;
+        List <string>llista = Llista(); //Ho faré amb List, que serveix per guardar una sequencia de cadenes,
+                      //i es més fàcil de gestionar, aqui truco al métode que afegira els valors a la llista.
+        // Ordena la agenda
+        llista.Sort();
 
+        // Mostro linea a linea la llista
+        Console.WriteLine("Llista ordenada dels usuaris:\n");
+        foreach (var usuari in llista) // Foreach ho que fa es mostrar totes les cadenes de la llista
+        {
+            Console.WriteLine(usuari.Replace(";", " "));
+        }
+
+    }
+    static void OrdenarAgenda()
+    {
+        Console.BackgroundColor = ConsoleColor.White;
+        Console.ForegroundColor = ConsoleColor.Black;
+        List<string> llista = Llista(); //Ho faré amb List, que serveix per guardar una sequencia de cadenes,
+                                        //i es més fàcil de gestionar, aqui truco al métode que afegira els valors.
+                                        // Ordena la agenda
+        llista.Sort();
+        OrdenarEsc(llista); //Truco al métode que escriura la llista a la agenda
+    }
+
+    static List<string> Llista()
+    {
+        Console.BackgroundColor = ConsoleColor.White;
+        Console.ForegroundColor = ConsoleColor.Black;
+
+        List<string> llista = new List<string>();
+
+        //  Afegeixo totes les líneas de la agenda a la llista.
+        using (StreamReader SR = new StreamReader("agenda.txt"))
+        {
+            while (!SR.EndOfStream)
+            {
+                llista.Add(SR.ReadLine()); // Es fa amb la comanda .add, el qual
+            }                              // afegeix ho que llegeix com a una
+        }                                  // cadena.
+        return llista;
+    }
+
+    static void OrdenarEsc(List<string> llistaUsuaris)
+    {
+        Console.BackgroundColor = ConsoleColor.White;
+        Console.ForegroundColor = ConsoleColor.Black;
+        // Escric la llista ordenada al arxiu.
+        using (StreamWriter SW = new StreamWriter("agenda.txt"))
+        {
+            foreach (var usuari in llistaUsuaris) // Per cada cadena fa el que hi ha dins,
+            {                                     // que es escriura la cadena al arxiu.
+                SW.WriteLine(usuari);
+            }
+        }
+    }
+
+     
     static void EliminarLinea(string linea)
     {
         string lineAux = "", agenda = "";
         using (StreamReader SR = new StreamReader("agenda.txt", true))
         {
+            lineAux = SR.ReadLine();
             while (!SR.EndOfStream)
             {
                 lineAux = SR.ReadLine();
@@ -510,7 +583,6 @@ class Program
                     agenda += lineAux + '\r';
                 }
             }
-
         }
         File.WriteAllText(@"agenda.txt", string.Empty);
         using (StreamWriter SW = new StreamWriter("agenda.txt", true))
@@ -583,15 +655,19 @@ class Program
         if (error) Console.WriteLine("HAS INTRODUÏT INCORRECTAMENT LES DADES");
         return error;
     }
-      static bool DataValidar(string data, bool error)
+      static string DataValidar(string data)
       {
-        ;  
-        if (!Regex.IsMatch(data, @"^\d{4}-\d{2}-\d{2}$"))
-          {
-              error = true;
-          }
-          if (error) Console.WriteLine("HAS INTRODUÏT INCORRECTAMENT LES DADES");
-          return error;
+        DateTime dataAct = DateTime.Now;
+        data = data.Replace("/", "");
+        if (DateTime.TryParseExact(data, "ddMMyyyy", null, System.Globalization.DateTimeStyles.None, out DateTime dataType))
+        {
+            int edat = dataAct.Year - dataType.Year;
+            if (dataAct.Month < dataType.Month || (dataAct.Month == dataType.Month && dataAct.Day < dataType.Day))
+                edat--;
+            Console.WriteLine($"Tens {edat} anys");
+        }
+
+        return dataType.ToString("dd/MM/yyyy");
       }
     static bool CorreuValidar(string correu, bool error)
     {
@@ -610,10 +686,9 @@ class Program
         Console.BackgroundColor = ConsoleColor.White;
         Console.ForegroundColor = ConsoleColor.Black;
         
-        
-        
         using (StreamReader SR = new StreamReader("agenda.txt"))
         {
+            nom = nom.Replace(" ", ";");
             while (!SR.EndOfStream)
             {
                 linea = SR.ReadLine();
@@ -623,6 +698,7 @@ class Program
                     lineaAux = linea;
                 }
             }
+            if(!trobat) Console.WriteLine("No hi ha cap usuari amb aquest nom");
         }
         return lineaAux;
     }

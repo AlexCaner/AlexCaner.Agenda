@@ -1,1 +1,6 @@
-Jaume;Paredes;Notes;41534268V;626228632;2005-05-05;alexcaner@gmail.xom
+Alex;Caner;Lavandeira;41434267V;626225674;15/04/2005;alexcaner@gmail.com
+Eva;Lòpez;Pasillo;41534127V;626225674;15/04/2005;alexcaner@gmail.com
+Joel;Fuentes;Corrido;41264267V;626225674;15/04/2005;alexcaner@gmail.com
+Jordi;Jesus;Cinque;86545678V;626229632;15/04/2003;jordi@gmail.com
+Miquel;Lazaro;Parido;41564267V;626225674;15/04/2005;alexcaner@gmail.com
+Pavel;Castillo;Sanchez;48734267V;626225674;15/04/2005;alexcaner@gmail.com
