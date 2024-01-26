@@ -136,7 +136,7 @@ class Program
             case 1:
                 Capçalera();
                 Alta();
-                Thread.Sleep(1000); // Espera 4 segons avans de tornar al menú
+                Thread.Sleep(500); // Espera 4 segons avans de tornar al menú
                 Console.Clear();
                 break;
             case 2:
@@ -154,19 +154,19 @@ class Program
             case 4:
                 Capçalera();
                 Eliminar();
-                Thread.Sleep(4000);
+                Thread.Sleep(500);
                 Console.Clear();
                 break;
             case 5:
                 Capçalera();
 
-                Thread.Sleep(4000);
+                Thread.Sleep(5000);
                 Console.Clear();
                 break;
             case 6:
                 Capçalera();
 
-                Thread.Sleep(4000);
+                Thread.Sleep(500);
                 Console.Clear();
                 break;
         }
@@ -328,6 +328,7 @@ class Program
 
         linea = TrobarUsuari(nom);
         lineaAux = linea;
+        Aux1linea = linea;
         Console.BackgroundColor = ConsoleColor.Blue;
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine("  1. Nom               ");
@@ -363,7 +364,16 @@ class Program
                     error = PrimeraMaj(dada, error);
                     lineaAux1 = linea;
                 } while (error);
-             linea = linea.Substring(0,linea.IndexOf(";")) + dada + linea.Substring(linea.IndexOf(";",2)+1);
+                linea = "";
+                while (i < 1)
+                {
+
+                    linea += Aux1linea.Substring(0, Aux1linea.IndexOf(";") + 1);
+                    Aux1linea = Aux1linea.Substring(Aux1linea.IndexOf(";") + 1);
+                    i++;
+                }
+                linea += dada + ";";
+                linea += Aux1linea.Substring(Aux1linea.IndexOf(";") + 1);
                 break;
             case 3:
                 do
@@ -374,7 +384,16 @@ class Program
                     error = PrimeraMaj(dada, error);
                     lineaAux1 = linea;
                 } while (error);
-             linea = linea.Substring(0, linea.IndexOf(";")) + dada + linea.Substring(linea.IndexOf(";", 3)+1);
+                linea = "";
+                while (i < 2)
+                {
+                    
+                    linea += Aux1linea.Substring(0, Aux1linea.IndexOf(";") + 1);
+                    Aux1linea = Aux1linea.Substring(Aux1linea.IndexOf(";") + 1);
+                    i++;
+                }
+                linea += dada + ";";
+                linea += Aux1linea.Substring(Aux1linea.IndexOf(";") + 1);
                 break;
             case 4:
                 do
@@ -385,7 +404,16 @@ class Program
                     error = DNIvalidar(dada, error);
                     lineaAux1 = linea;
                 } while (error);
-              linea = linea.Substring(0, linea.IndexOf(";",3)) + dada + linea.Substring(linea.IndexOf(";", 4)+1);
+                linea = "";
+                while (i < 3)
+                {
+
+                    linea += Aux1linea.Substring(0, Aux1linea.IndexOf(";") + 1);
+                    Aux1linea = Aux1linea.Substring(Aux1linea.IndexOf(";") + 1);
+                    i++;
+                }
+                linea += dada + ";";
+                linea += Aux1linea.Substring(Aux1linea.IndexOf(";") + 1);
                 break;
             case 5:
                 do
@@ -396,7 +424,16 @@ class Program
                     error = TelValidar(dada, error);
                     lineaAux1 = linea;
                 } while (error);
-              linea = linea.Substring(0, linea.IndexOf(";",4)) + dada + linea.Substring(linea.IndexOf(";", 5) + 1);
+                linea = "";
+                while (i < 4)
+                {
+
+                    linea += Aux1linea.Substring(0, Aux1linea.IndexOf(";") + 1);
+                    Aux1linea = Aux1linea.Substring(Aux1linea.IndexOf(";") + 1);
+                    i++;
+                }
+                linea += dada + ";";
+                linea += Aux1linea.Substring(Aux1linea.IndexOf(";") + 1);
                 break;
             case 6:
                 do
@@ -407,7 +444,16 @@ class Program
                     error = DataValidar(dada, error);
                     lineaAux1 = linea;
                 } while (error);
-             linea = linea.Substring(0, linea.IndexOf(";",5)) + dada + linea.Substring(linea.IndexOf(";", 6) + 1);
+                linea = "";
+                while (i < 5)
+                {
+
+                    linea += Aux1linea.Substring(0, Aux1linea.IndexOf(";") + 1);
+                    Aux1linea = Aux1linea.Substring(Aux1linea.IndexOf(";") + 1);
+                    i++;
+                }
+                linea += dada + ";";
+                linea += Aux1linea.Substring(Aux1linea.IndexOf(";") + 1);
                 break;
             case 7:
                 do
@@ -418,7 +464,7 @@ class Program
                     error = CorreuValidar(dada, error);
                     lineaAux1 = linea;
                 } while (error);
-                linea = linea.Substring(0, linea.IndexOf(";",6)) + dada + linea.Substring(linea.IndexOf(";", 7) + 1);
+                linea = linea.Substring(0, linea.LastIndexOf(";") +1 ) + dada;
                 break;
         }
 
@@ -428,7 +474,7 @@ class Program
                 agenda = SR.ReadLine();
         }
         ModLinea(linea, lineaAux1);
-    }
+    } 
     static void Eliminar()
     {
         string agenda = "", linea, nom;
