@@ -135,8 +135,8 @@ class Program
                 Console.ResetColor();
                 break;
             case 1:
-                Capçalera();
-                Alta();
+                Capçalera(); // Aqui truco a la capçalera
+                Alta(); // Truco a la opció seleccionada
                 Thread.Sleep(500); // Espera 4 segons avans de tornar al menú
                 Console.Clear();
                 break;
@@ -173,7 +173,7 @@ class Program
     }
 
     // METODE PER ENTRAR DADA 
-    static string IntroduirValor() // Aixo es un métode el cual demana un valor y el retorna al switch
+    static string IntroduirValor() // Aixo es un métode el cual demana un valor
     {
         string valor = Console.ReadLine();
         return valor;
@@ -201,7 +201,7 @@ class Program
         using (StreamWriter SW = new StreamWriter("agenda.txt",true))
         {
 
-            string nom, cognom1, cognom2, DNI, telefon, data, correu;
+        string nom, cognom1, cognom2, DNI, telefon, data, correu;
         bool error = false;
 
         Console.BackgroundColor = ConsoleColor.White;
@@ -211,58 +211,58 @@ class Program
             error = false;
             Console.Write("Nom: ");
             nom = IntroduirValor();
-            error = PrimeraMaj(nom, error);
+            error = PrimeraMaj(nom, error); // Truco a ho que validara el nom
         } while (error);
         do
         {
             error = false;
             Console.Write("Primer cognom: ");
             cognom1 = IntroduirValor();
-            error = PrimeraMaj(cognom1, error);
-        } while (error); 
+            error = PrimeraMaj(cognom1, error); // Truco a ho que validara el cognom
+            } while (error); 
         do
         {
             error = false;
             Console.Write("Segon cognom: ");
             cognom2 = IntroduirValor();
-            error = PrimeraMaj(cognom2, error);
-        } while (error);
+            error = PrimeraMaj(cognom2, error); // Truco a ho que validara el segon cognom
+            } while (error);
         do
         {
             error = false;
             Console.Write("DNI: ");
             DNI = IntroduirValor();
-            error = DNIvalidar(DNI, error);
+            error = DNIvalidar(DNI, error); // Truco a ho que validara el DNI
 
-        } while (error);
+            } while (error);
         do
         {
             error = false;
             Console.Write("Teléfon: ");
             telefon = IntroduirValor();
-            error = TelValidar(telefon, error);
-        } while (error);
+            error = TelValidar(telefon, error);  // Truco a ho que validara el telefon
+            } while (error);
         do
         {
             error = false;
             Console.Write("Data Naixement: ");
             data = IntroduirValor();
-            data = DataValidar(data);
-        } while (error);
+            data = DataValidar(data);  // Truco a ho que validara la data
+            } while (error);
         do
         {
             error = false;
             Console.Write("Correu Electrónic: ");
             correu = IntroduirValor();
-            error = CorreuValidar(correu, error);
-        } while (error) ;
+            error = CorreuValidar(correu, error);  // Truco a ho que validara correu
+            } while (error) ;
 
-        //DateTime datanaix = new DateTime(Convert.ToInt32(data));
         SW.WriteLine(nom + ";" + cognom1 + ";" + cognom2 + ";" + DNI + ";" + telefon + ";" + data + ";" + correu);
+        // Aqui afegeixo la linea al arxiu, que es seoara per ;.
         }
     }
 
-    static void Recuperar()
+    static void Recuperar() // Aqui mostrara el contingut de una linea de format bonic.
     {
         Console.BackgroundColor = ConsoleColor.White;
         Console.ForegroundColor = ConsoleColor.Black;
@@ -275,13 +275,13 @@ class Program
             {
                 Console.Write("Insereix Usuari: ");
                 nom = IntroduirValor();
-                error = PrimeraMaj(nom, error);
+                error = PrimeraMaj(nom, error); // Valido que el nom sigui correcte
             } while (error);
-            linea = TrobarUsuari(nom);
+            linea = TrobarUsuari(nom); // Aqui busco la linea del usuari posat i la gaurda a la variable
             if (linea != "")
             {
-                 Console.WriteLine($"Nom: {linea.Substring(0,linea.IndexOf(";"))}");
-                 linea = Retallar(linea);
+                 Console.WriteLine($"Nom: {linea.Substring(0,linea.IndexOf(";"))}"); // Imprimeixo el que toca
+                 linea = Retallar(linea); // Truco a ho que retalla la línea
                  Console.WriteLine($"Primer Cognom: {linea.Substring(0, linea.IndexOf(";"))}");
                  linea = Retallar(linea);
                  Console.WriteLine($"Segon Cognom: {linea.Substring(0, linea.IndexOf(";"))}");
@@ -296,7 +296,7 @@ class Program
                  trobat = true;
              }
 
-            if (!trobat)
+            if (!trobat) // Aqui espero a que respongui si vol o no buscar un altre
             {
                 Console.WriteLine("No s'ha trobat, vols provar un altre cop?");
                 string tornar = Console.ReadLine();
@@ -311,7 +311,7 @@ class Program
             }
         } while (!trobat);
     }
-    static void Modificar()
+    static void Modificar() // Aqui modificarem una dada de un usuari
     {
         string agenda = "", linea, nom, dada, lineaAux, lineaAux1="", Aux1linea = "";
         int cas, i = 0;
@@ -326,11 +326,11 @@ class Program
                 Console.Write("Insereix Usuari: ");
                 nom = IntroduirValor();
                 error = PrimeraMaj(nom, error);
-            } while (error);
+            } while (error); // Aqui insereix un usuari
 
             linea = TrobarUsuari(nom);
             Console.WriteLine(linea.Replace(";", "   "));
-        } while (linea == "");
+        } while (linea == ""); // En cas de que no trobi usuari torna a demanar un usuari
         
         lineaAux = linea;
         Aux1linea = linea;
@@ -346,8 +346,8 @@ class Program
         Console.BackgroundColor = ConsoleColor.White;
         Console.ForegroundColor = ConsoleColor.Black;
         Console.Write("\n Quina vols modificar:");
-        cas = IntroduirInt();
-        switch (cas)
+        cas = IntroduirInt(); // Demano quina dada vol modificar
+        switch (cas) // Aqui es per modificar la dada.
         {
             case 1:
                 do
@@ -358,7 +358,7 @@ class Program
                     error = PrimeraMaj(dada, error);
                     lineaAux1 = linea;
                 } while (error);
-                linea = dada + linea.Substring(linea.IndexOf(";"));
+                linea = dada + linea.Substring(linea.IndexOf(";")); // Afegeix la dada modificada a la linea restant
                 break;
             case 2:
                 do
@@ -370,9 +370,8 @@ class Program
                     lineaAux1 = linea;
                 } while (error);
                 linea = "";
-                while (i < 1)
+                while (i < 1) // Aqui afegeixo la dada modificada a la linea sense modificar
                 {
-
                     linea += Aux1linea.Substring(0, Aux1linea.IndexOf(";") + 1);
                     Aux1linea = Aux1linea.Substring(Aux1linea.IndexOf(";") + 1);
                     i++;
@@ -476,11 +475,11 @@ class Program
         using (StreamReader SR = new StreamReader("agenda.txt", true))
         {
             while (!SR.EndOfStream)
-                agenda = SR.ReadLine();
+            agenda = SR.ReadLine();
         }
-        ModLinea(linea, lineaAux1);
+        ModLinea(linea, lineaAux1); // Afegeixo la línea al arxiu y borro la que no esta modificada
     } 
-    static void Eliminar()
+    static void Eliminar() // Aqui elimino un usuari
     {
         string agenda = "", linea, nom = "";
         bool error;
@@ -494,17 +493,17 @@ class Program
                 Console.Write("Insereix Usuari: ");
                 nom = IntroduirValor();
                 error = PrimeraMaj(nom, error);
-            } while (error);
+            } while (error); // Demanar un usuari
 
-            linea = TrobarUsuari(nom);
+            linea = TrobarUsuari(nom); // Busca el usuari y comproba que ho sigui.
         } while (linea == "");
 
         using (StreamReader SR = new StreamReader("agenda.txt", true))
         {
             while (!SR.EndOfStream)
-                agenda = SR.ReadLine();
+            agenda = SR.ReadLine();
         }
-        EliminarLinea(linea);
+        EliminarLinea(linea); // Truco al métode que elimina el usuari
     }
     //static void MostrarAgenda();
     
@@ -569,57 +568,57 @@ class Program
     }
 
      
-    static void EliminarLinea(string linea)
+    static void EliminarLinea(string linea) // Aqui elimino una linea
     {
         string lineAux = "", agenda = "";
         using (StreamReader SR = new StreamReader("agenda.txt", true))
         {
-            lineAux = SR.ReadLine();
+            lineAux = SR.ReadLine(); 
             while (!SR.EndOfStream)
             {
-                lineAux = SR.ReadLine();
+                lineAux = SR.ReadLine(); // Guardo una linea y en cas de que sigui diferent a la linea la guardo
                 if (linea.Substring(0, linea.IndexOf(";")) != lineAux.Substring(0, lineAux.IndexOf(";")))
                 {
                     agenda += lineAux + '\r';
                 }
             }
         }
-        File.WriteAllText(@"agenda.txt", string.Empty);
+        File.WriteAllText(@"agenda.txt", string.Empty); // Vuido la agenda
         using (StreamWriter SW = new StreamWriter("agenda.txt", true))
         {
-            SW.Write(agenda);
+            SW.Write(agenda); // I escric de nou la agenda
         }
     }
 
-    static void ModLinea(string linea, string lineaAux1)
+    static void ModLinea(string linea, string lineaAux1) // Aqui modifico una linea
     {
         string lineAux = "", agenda = "";
         using (StreamReader SR = new StreamReader("agenda.txt", true))
         {
             while (!SR.EndOfStream)
             {
-                lineAux = SR.ReadLine();
+                lineAux = SR.ReadLine(); // Guardo una linea
                 if (lineaAux1.Substring(0,lineaAux1.IndexOf(";")) != lineAux.Substring(0, lineAux.IndexOf(";")))
-                {
+                { // Si es diferent la línea guardo la linea
                     agenda += lineAux + '\r';
                 }
             }
             agenda += linea;
 
         }
-        File.WriteAllText(@"agenda.txt", string.Empty);
+        File.WriteAllText(@"agenda.txt", string.Empty); // Vuido la agenda
         using (StreamWriter SW = new StreamWriter("agenda.txt", true))
         {
-            SW.Write(agenda);
+            SW.Write(agenda); // I escric a la agenda
         }
     }
 
-    static string Retallar(string linea)
+    static string Retallar(string linea) // Per treure part de línea
     {
         linea = linea.Substring(linea.IndexOf(";") + 1);
         return linea;
     }
-    static bool PrimeraMaj(string nom, bool error)
+    static bool PrimeraMaj(string nom, bool error) // Validar que la primera sigui majuscula
     {
         ;
         if (nom.Substring(0,1) != nom.Substring(0, 1).ToUpper())
@@ -629,7 +628,7 @@ class Program
         if (error) Console.WriteLine("HAS INTRODUÏT INCORRECTAMENT LES DADES");
         return error;
     }
-    static bool DNIvalidar(string DNI, bool error)
+    static bool DNIvalidar(string DNI, bool error) // Valido que el DNI estigui en format correcte
     {
         if (DNI.Length != 9)
         {
@@ -642,7 +641,7 @@ class Program
         if (error) Console.WriteLine("HAS INTRODUÏT INCORRECTAMENT LES DADES");
         return error;
     }
-    static bool TelValidar(string telefon, bool error)
+    static bool TelValidar(string telefon, bool error) // Valido el telefon
     {
         if (telefon.Length != 9)
         {
@@ -655,7 +654,7 @@ class Program
         if (error) Console.WriteLine("HAS INTRODUÏT INCORRECTAMENT LES DADES");
         return error;
     }
-      static string DataValidar(string data)
+      static string DataValidar(string data) // Valido una data i escric la edat que te
       {
         DateTime dataAct = DateTime.Now;
         data = data.Replace("/", "");
@@ -669,7 +668,7 @@ class Program
 
         return dataType.ToString("dd/MM/yyyy");
       }
-    static bool CorreuValidar(string correu, bool error)
+    static bool CorreuValidar(string correu, bool error) // Validar el correu
     {
         ;
         if (!Regex.IsMatch(Convert.ToString(correu), @"^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"))
@@ -679,7 +678,7 @@ class Program
         if (error) Console.WriteLine("HAS INTRODUÏT INCORRECTAMENT LES DADES");
         return error;
     }
-    static string TrobarUsuari(string nom)
+    static string TrobarUsuari(string nom) // Trobo el usuari i gaurdo la seva linea en una variable
     {
         string linea, lineaAux = "";
         bool trobat = false;
@@ -688,11 +687,11 @@ class Program
         
         using (StreamReader SR = new StreamReader("agenda.txt"))
         {
-            nom = nom.Replace(" ", ";");
+            nom = nom.Replace(" ", ";"); // Canvio els espais per ; per si buscar posant el nom y cognom o altres dades
             while (!SR.EndOfStream)
             {
-                linea = SR.ReadLine();
-                if (linea.Contains(nom))
+                linea = SR.ReadLine(); 
+                if (linea.Contains(nom)) // Si la linea conte el nom gaurda la linea.
                 {
                     trobat = true;
                     lineaAux = linea;
